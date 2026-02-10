@@ -4,7 +4,7 @@ Disk management in Linux can be performed using graphical tools such as "GParted
 
 This guide covers the "cfdisk" because it is simple, menu-driven, universally available, and suitable for desktops, servers, and virtual machines.
 
-## 1. List All Available Disks and Partitions : "in this guide, sdb1 is used as example and data as partition label's name":
+## 1. List All Available Disks and Partitions : "in this guide, sdb1 is used as example and DATA as partition label's name":
 
 On terminal and run:
 
@@ -50,7 +50,7 @@ Inside `cfdisk`, follow these steps:
 
 After creating the partition, format it to create a filesystem:
 
-"ext4" (recommended for linux/VM):
+ext4 (recommended for linux/VM):
 
 ```
 sudo mkfs.ext4 /dev/sdb1
@@ -58,19 +58,19 @@ sudo mkfs.ext4 /dev/sdb1
 
 Or for other file systems, follow:
 
-"xfs":
+xfs:
 
 ```
 sudo mkfs.xfs /dev/sdb1
 ```
 
-"ntfs":
+ntfs:
 
 ```
 sudo mkfs.ntfs /dev/sdb1
 ```
 
-"vfat/FAT32 (suitable for USB)":
+vfat/FAT32 (suitable for USB):
 ```
 sudo mkfs.vfat /dev/sdb1
 ```
@@ -82,33 +82,33 @@ sudo mkfs.vfat /dev/sdb1
 
 After formatting,chosing a label for the partition helps to identify it easily: here are some common ones, chose one for your case: 
 
-- "ext4":
+- ext4:
 ```
-sudo e2label /dev/sdb1 DATA10
-```
-
-- "xfs":
-```bash
-sudo xfs_admin -L DATA10 /dev/sdb1
+sudo e2label /dev/sdb1 DATA
 ```
 
-- **ntfs:**
+- xfs:
 ```bash
-sudo ntfslabel /dev/sdb1 DATA10
+sudo xfs_admin -L DATA /dev/sdb1
 ```
 
-- **vfat/FAT32:**
+- ntfs:
 ```bash
-sudo fatlabel /dev/sdb1 DATA10
+sudo ntfslabel /dev/sdb1 DATA
+```
+
+- vfat/FAT32:
+```bash
+sudo fatlabel /dev/sdb1 DATA
 ```
 
 ✅ Alternatively, you can set the label during formatting:
 
 ```
-sudo mkfs.ext4 -L DATA10 /dev/sdb1
-sudo mkfs.xfs -L DATA10 /dev/sdb1
-sudo mkfs.ntfs -L DATA10 /dev/sdb1
-sudo mkfs.vfat -n DATA10 /dev/sdb1
+sudo mkfs.ext4 -L DATA /dev/sdb1
+sudo mkfs.xfs -L DATA /dev/sdb1
+sudo mkfs.ntfs -L DATA /dev/sdb1
+sudo mkfs.vfat -n DATA /dev/sdb1
 ```
 ## 5. Mount the Partition
 
