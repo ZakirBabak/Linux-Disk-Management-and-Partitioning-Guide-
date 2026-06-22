@@ -1,4 +1,4 @@
-# Linux Disk Management and Partitioning Guide 
+# Linux Disk Management and Partitioning Guide
 
 Disk management in Linux can be performed using graphical tools such as "GParted:apt install gparted , sudo gparted" or "KDE Partition Manager: apt install partitionmanager , sudo partitionmanager", and command-line tools such as "fdisk", "parted", and "cfdisk".
 
@@ -7,30 +7,22 @@ This guide covers the "cfdisk" because it is simple, menu-driven, universally av
 ## 1. List All Available Disks and Partitions : "in this guide, sdb1 is used as example and DATA as partition label's name":
 
 On terminal and run:
-```
 lsblk
 ```
 Or for more details:
-```
 lsblk -o NAME,SIZE,TYPE
 ```
 Example output:
-
-```
 sdb    20G  disk
 └─sdb1 10G  part
 ```
 ⚠️ Always verify the targeted disk to avoid mistakes. Using the wrong disk can "erase important data".
-
 -----
 
 ## 2. Partition the Disk Using `cfdisk`
 
 Start partitioning the selected disk:
-
-```
 sudo cfdisk /dev/sdb
-
 ```
 Inside `cfdisk`, follow these steps:
 
@@ -41,38 +33,28 @@ Inside `cfdisk`, follow these steps:
 5. Select "Write" and type `yes` to save changes.
 6. Finally, select "Quit".
  
-⚠️ Note:Until you execute "Write", no changes are applied to the disk.
+⚠️ Note: Until you execute "Write", no changes are applied to the disk.
 
 ---
 ## 3. Format the Partition
 
 After creating the partition, format it to create a filesystem:
-
 ext4 (recommended for linux/VM):
-
 ```
 sudo mkfs.ext4 /dev/sdb1
-```
-
 Or for other file systems, follow:
-
 xfs:
-
 ```
 sudo mkfs.xfs /dev/sdb1
 ```
-
 ntfs:
-
 ```
 sudo mkfs.ntfs /dev/sdb1
 ```
-
 vfat/FAT32 (suitable for USB):
 ```
 sudo mkfs.vfat /dev/sdb1
 ```
-
 ⚠️ Warning: Formating erases all exisiting data on the Partition.
 ---
 
@@ -86,22 +68,16 @@ sudo e2label /dev/sdb1 DATA
 ```
 
 - xfs:
-```bash
 sudo xfs_admin -L DATA /dev/sdb1
 ```
-
 - ntfs:
-```bash
 sudo ntfslabel /dev/sdb1 DATA
 ```
-
 - vfat/FAT32:
-```bash
 sudo fatlabel /dev/sdb1 DATA
 ```
 
 ✅ Alternatively, you can set the label during formatting:
-
 ```
 sudo mkfs.ext4 -L DATA /dev/sdb1
 sudo mkfs.xfs -L DATA /dev/sdb1
@@ -111,7 +87,6 @@ sudo mkfs.vfat -n DATA /dev/sdb1
 ## 5. Mount the Partition
 
 ### Temporarily Mount
-
 ```
 sudo mkdir /data
 sudo mount /dev/sdb1 /data
@@ -123,8 +98,6 @@ df -h
 ### Persistent Mount
 
 1. Get the partition's UUID:
-
-```
 blkid /dev/sdb1
 ```
 2. Edit `/etc/fstab` to add the partition:
@@ -133,14 +106,10 @@ blkid /dev/sdb1
 sudo vim /etc/fstab
 ```
 Add a line like this (replace `xxxx-xxxx` with the actual UUID):
-
-```
 UUID=xxxx-xxxx  /data  ext4  defaults  0  2
 ```
 
 3. Test without reboot:
-
-```
 sudo mount -a
 ```
 
@@ -149,6 +118,5 @@ sudo mount -a
 
 ## 6. Quick Summary of Steps
 
-```
 lsblk → cfdisk → mkfs → label → mount → fstab      
 ```
