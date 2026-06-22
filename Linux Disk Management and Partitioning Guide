@@ -7,12 +7,10 @@ This guide covers the "cfdisk" because it is simple, menu-driven, universally av
 ## 1. List All Available Disks and Partitions : "in this guide, sdb1 is used as example and DATA as partition label's name":
 
 On terminal and run:
-
 ```
 lsblk
 ```
 Or for more details:
-
 ```
 lsblk -o NAME,SIZE,TYPE
 ```
